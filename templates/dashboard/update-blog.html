@@ -1,0 +1,117 @@
+{% extends 'dashboard/base.html'%}
+
+
+{% block content %}
+<div>
+</div>
+<div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tables</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+              <a href="#" class="btn btn-sm btn-neutral">New</a>
+              <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="container-fluid mt--6">
+      <div class="row">
+        
+        <div class="col-xl-9 order-xl-1">
+          <div class="card">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Add Blog </h3>
+                </div>
+                <div class="col-4 text-right">
+                  <a href="#!" class="btn btn-sm btn-primary"></a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+            {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                      <i class="nc-icon nc-simple-remove"></i>
+                    </button>
+                  
+                    <span> <b>{{ error|escape }}</b></span>
+                  </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <span> <b>{{ error|escape }}</b></span>
+              </div>
+            {% endfor %}
+        {% elif form.is_valid %}
+              
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="nc-icon nc-simple-remove"></i>
+            </button>
+            <span> <b>Your blog is Successfully Submitted ...! </b></span>
+          </div>
+         
+        {% endif %}
+        <div class="card-header">
+      <h5 class="card-title">Update Blog <strong>"{{blog.title}}"</strong></h5>
+    </div>
+    <div class="card-body">
+      <form action= "" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="text-dark">SEO Title: </label>
+            {{form.title}}
+          </div>
+        <div class="form-group">
+            <label class="text-dark" >Slug: </label>
+            {{form.slug}}
+            {{form.slug.error}}
+        </div>
+        <div class="form-group">
+            <label class="text-dark">Blog Content:</label><br>
+            {{form.content | safe}}
+            {{form.media}}
+        </div>
+        <div class="form-group">
+            <label class="text-dark">Description : </label><br>
+           {{form.description}}
+        </div>
+       
+        
+        <div class="form-group">
+            <label class="text-dark">Select Status: </label>
+            {{form.status}}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Blog</button>
+        <a type= "button" href="{% url 'bloglist' %}"class="btn btn-secondary">Cancel</a>
+        <a type= "button" href="{% url 'deleteblog' blog.slug %}"class="btn btn-danger">Delete</a>
+              
+      </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+    </div>
+    {% endblock content %}
